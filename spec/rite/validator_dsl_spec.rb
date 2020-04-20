@@ -39,18 +39,18 @@ RSpec.describe Rite::ValidatorDSL do
         end
 
         it 'defines a #validate method on the class' do
-          expect(validator.validate(:value, [true])).to eq(true)
-          expect(validator.validate(:value, [false])).to eq(false)
+          expect(validator.validate(:value, true)).to eq(true)
+          expect(validator.validate(:value, false)).to eq(false)
         end
 
         it 'enables #validate! to work' do
-          expect { validator.validate!(:value, [true]) }.not_to raise_error
-          expect { validator.validate!(:value, [false]) }.to raise_error(Rite::ValidationError)
+          expect { validator.validate!(:value, true) }.not_to raise_error
+          expect { validator.validate!(:value, false) }.to raise_error(Rite::ValidationError)
         end
 
         it 'enables #valid? to work' do
-          expect(validator.valid?(:value, [true])).to eq(true)
-          expect(validator.valid?(:value, [false])).to eq(false)
+          expect(validator.valid?(:value, true)).to eq(true)
+          expect(validator.valid?(:value, false)).to eq(false)
         end
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe Rite::ValidatorDSL do
         end
 
         it 'defines a custom #failure_message method' do
-          expect(validator.failure_message('value', ['extra'])).to eq('value extra')
+          expect(validator.failure_message('value', 'extra')).to eq('value extra')
         end
       end
 
@@ -130,15 +130,15 @@ RSpec.describe Rite::ValidatorDSL do
     end
 
     it 'validates value is of type' do
-      expect(validator.validate('string', [String])).to be_truthy
+      expect(validator.validate('string', String)).to be_truthy
     end
 
     it 'does not validate value is of a different type' do
-      expect(validator.validate('string', [Numeric])).to be_falsey
+      expect(validator.validate('string', Numeric)).to be_falsey
     end
 
     it 'returns a custom error message' do
-      validator.failure_message(10, [String])
+      validator.failure_message(10, String)
     end
   end
 end

@@ -32,16 +32,33 @@ module Rite
       end
     end
 
+    def rescue_with(method = nil, &block)
+      if block_given?
+        define_validator_method(:handle_error, &block)
+      else
+        case method
+        when :raising
+          define_validator_method(:handle_error) do |error, *_args|
+            raise error
+          end
+        when :ignoring
+          define_validator_method(:handle_error) do |*_args|
+            nil
+          end
+        when :wrapping
+          define_validator_method(:handle_error) do |error, *_args|
+            raise Rite::ValidationError, "#{error.class.name}: #{error.message}"
+          end
+        end
+      end
+    end
+
     def define_validator_method(name, &block)
       if block.arity.abs < VALIDATOR_METHOD_ARITY
         raise Rite::DSLError, "validate method requires #{VALIDATOR_METHOD_ARITY} argument"
       end
 
-      @klass.class_eval do
-        define_singleton_method(name) do |value, args = []|
-          block.call(value, *args)
-        end
-      end
+      @klass.define_singleton_method(name, &block)
 
       nil
     end

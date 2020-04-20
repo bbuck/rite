@@ -9,7 +9,7 @@ module Rite
     end
 
     def self.validate!(value, *args)
-      raise Rite::ValidationError, failure_message(value, *args) unless validate(value, args)
+      raise Rite::ValidationError, failure_message(value, *args) unless validate(value, *args)
       true
     end
 
@@ -21,6 +21,7 @@ module Rite
       validate(value, *args)
     rescue StandardError => e
       handle_error(e)
+      false
     end
 
     def self.failure_message(value, *_args)

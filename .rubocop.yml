@@ -62,7 +62,7 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
-Layout/Tab:
+Layout/IndentationStyle:
   IndentationWidth: 2
 
 Layout/FirstArrayElementIndentation:
@@ -76,3 +76,15 @@ Layout/EndAlignment:
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
