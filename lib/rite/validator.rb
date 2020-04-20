@@ -4,41 +4,34 @@
 module Rite
   # Validator handles logic for validating a value
   class Validator
-    def self.validate(*)
+    def self.validate(_value, *_args)
       raise NotImplementedError, 'validate is not implemented yet'
     end
 
-    def self.valid?(value)
-      !!validate(value) # rubocop:disable Style/DoubleNegation
+    def self.validate!(value, *args)
+      raise Rite::ValidationError, failure_message(value, *args) unless validate(value, args)
+      true
     end
 
-    def self.failure_message(*)
-      'value failed validation'
-    end
-  end
-
-  # @private
-  class ValidatorDefinition
-    attr_reader :klass
-
-    def initialize
-      @klass = Class.new(Validator)
+    def handle_error(error, _value, *_args)
+      raise error
     end
 
-    def on_validate(&block)
-      raise ArgumentError, 'block to #on_validate should accept one argument' if block.arity.abs != 1
-      @klass.define_singleton_method(:validate, &block)
+    def self.valid?(value, *args)
+      validate(value, *args)
+    rescue StandardError => e
+      handle_error(e)
     end
 
-    def failure_message(&block)
-      raise ArgumentError, 'block to #on_validate should accept one argument' if block.arity.abs != 1
-      @klass.define_singleton_method(:failure_message, &block)
+    def self.failure_message(value, *_args)
+      %("#{value}" failed validation)
     end
-  end
-
-  def self.define_validator(&block)
-    definition = ValidatorDefinition.new
-    definition.instance_eval(&block)
-    definition.klass
   end
 end
+
+# [
+#   {
+#     validator: ClassValidator,
+#     arguments: [String],
+#   },
+# ]
