@@ -4,6 +4,42 @@ Define validators for Ruby classes and objects. Rite provides a simple, chainabl
 validator solution based on the principles of functional design: small, composable
 validators used to build complex validation logic.
 
+## Roadmap to v1
+
+- [x] gemspec
+- [x] Validator base class
+- [ ] Basic validators
+  - [ ] class validator
+  - [ ] value validator
+  - [ ] required validator
+  - [ ] numeric validator
+  - [ ] hash validator
+  - [ ] array validator
+- [ ] Passage
+- [ ] "Friendly" DSL
+  - [ ] DSL for validator
+    - [x] define validate function
+    - [x] define custom failure message
+    - [ ] define error handling
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'rite'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install rite
+
+## Usage
+
 It starts with defining a small validator, like a validating type:
 
 ```ruby
@@ -71,44 +107,6 @@ ssn_validator = Rite::Validators
   .message('"%value" is not a valid SSN') # overrides any failure message by this piont
   # -> '"value" is not a valid SSN"
 ```
-
-## Roadmap to v1
-
-- [x] gemspec
-- [x] Validator base class
-- [ ] Basic validators
-  - [ ] class validator
-  - [ ] value validator
-  - [ ] required validator
-  - [ ] numeric validator
-  - [ ] hash validator
-  - [ ] array validator
-- [ ] Passage
-- [ ] "Friendly" DSL
-  - [ ] DSL for validator
-    - [x] define validate function
-    - [x] define custom failure message
-    - [ ] define error handling
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'rite'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install rite
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 
