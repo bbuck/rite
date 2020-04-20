@@ -1,11 +1,77 @@
 # Rite
 
-TODO: Describe (waiting on more finalized APIs)
+Define validators for Ruby classes and objects. Rite provides a simple, chainable
+validator solution based on the principles of functional design: small, composable
+validators used to build complex validation logic.
+
+It starts with defining a small validator, like a validating type:
+
+```ruby
+string_validator = Rite.define_validator do
+  validate do |value|
+    value.is_a?(String)
+  end
+
+  failure_message '"%value" must be a string'
+end
+```
+
+And now we can use it to validate some input:
+
+```ruby
+some_value = get_data_from_somewhere
+if string_validator.valid?(some_value)
+  # It's a string!
+else
+  # It's not a string!
+  puts string_validator.failure_message(some_value)
+end
+```
+
+But it's obvious this is overkill just to perform a simple `#is_a?` call. That's
+what `Rite::Passage` solves -- chaining. We usually don't want to verify just
+type in real world applications, we may want to verify that it matches some
+expected format:
+
+(NOTE: This API is not yet implemented and subject to change)
+
+```ruby
+ssn_validator = Rite::Validators
+  .string # .is_a?(String)
+  .matches(/\d{3}=\d{2}-\d{4}/) # .matches?(regex)
+  .required # !.nil? && .length > 0
+```
+
+```ruby
+positive_integers = Rite::Validators
+  .integer # .is_a?(Integer)
+  .greater_than(0, :or_equal) # >= 0
+  .required # !.nil? && .length > 0
+```
+
+These validators create "chains" that will run the value through multiple
+validators. These passages can also be used to chain other passages!
+
+```ruby
+valid_ssn_validator = Rite::Validators
+  .with(ssn_validator)
+  .not_equal('000-00-0000')
+```
+
+Or you can use specialized validtors to inject transformations to the output:
+
+````ruby
+ssn_validator = Rite::Validators
+  .string # -> '"value" was expected to be String'
+  .matches(/\d{3}=\d{2}-\d{4}/) # -> '"value" did not match expected format'
+  .required # -> 'cannot be nil or blank'
+  .message('"%value" is not a valid SSN') # -> '"value" is not a valid SSN"
+```
 
 ## Roadmap to v1
 
 - [x] gemspec
-- [ ] Validator base class
+- [x] Validator base class
 - [ ] Basic validators
   - [ ] class validator
   - [ ] value validator
@@ -15,6 +81,10 @@ TODO: Describe (waiting on more finalized APIs)
   - [ ] array validator
 - [ ] Passage
 - [ ] "Friendly" DSL
+  - [ ] DSL for validator
+    - [x] define validate function
+    - [x] define custom failure message
+    - [ ] define error handling
 
 ## Installation
 
@@ -22,7 +92,7 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem 'rite'
-```
+````
 
 And then execute:
 
