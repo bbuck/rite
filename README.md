@@ -60,12 +60,16 @@ valid_ssn_validator = Rite::Validators
 
 Or you can use specialized validtors to inject transformations to the output:
 
-````ruby
+```ruby
+# arrow points to failure message should that step fail but the final #message
+# means if any step fails the failure message provided to #message will be the
+# return value
 ssn_validator = Rite::Validators
   .string # -> '"value" was expected to be String'
   .matches(/\d{3}=\d{2}-\d{4}/) # -> '"value" did not match expected format'
   .required # -> 'cannot be nil or blank'
-  .message('"%value" is not a valid SSN') # -> '"value" is not a valid SSN"
+  .message('"%value" is not a valid SSN') # overrides any failure message by this piont
+  # -> '"value" is not a valid SSN"
 ```
 
 ## Roadmap to v1
@@ -92,7 +96,7 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem 'rite'
-````
+```
 
 And then execute:
 
