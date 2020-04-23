@@ -13,7 +13,7 @@ module Rite
       true
     end
 
-    def handle_error(error, _value, *_args)
+    def self.handle_error(error, _value, *_args)
       raise error
     end
 
