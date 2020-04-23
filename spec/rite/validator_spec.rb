@@ -6,25 +6,25 @@ require 'spec_helper'
 RSpec.describe Rite::Validator do
   subject(:validator) { described_class }
 
-  describe '#validate' do
+  describe '.validate' do
     it 'raises a not implemented error' do
       expect { validator.validate(nil) }.to raise_error(NotImplementedError)
     end
   end
 
-  describe '#validate!' do
+  describe '.validate!' do
     it 'raises a not implemented error' do
       expect { validator.validate(nil) }.to raise_error(NotImplementedError)
     end
   end
 
-  describe '#valid?' do
+  describe '.valid?' do
     it 'raises a not implemented error' do
       expect { validator.validate(nil) }.to raise_error(NotImplementedError)
     end
   end
 
-  describe '#failure_message' do
+  describe '.failure_message' do
     shared_examples_for 'error message' do |value|
       it "returns a default error message for #{value.class.name}" do
         expect(validator.failure_message(value)).to eq(%("#{value}" failed validation))
