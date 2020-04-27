@@ -42,4 +42,10 @@ RSpec.describe Rite::Validator do
       it_behaves_like 'error message', value
     end
   end
+
+  describe '.handle_error' do
+    it 'raises the error passed to it' do
+      expect { validator.handle_error(StandardError.new('testing'), 'value') }.to raise_error(StandardError, /testing/)
+    end
+  end
 end

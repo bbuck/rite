@@ -9,18 +9,21 @@ validators used to build complex validation logic.
 - [x] gemspec
 - [x] Validator base class
 - [ ] Basic validators
-  - [ ] class validator
+  - [ ] type validator
   - [ ] value validator
   - [ ] required validator
   - [ ] numeric validator
   - [ ] hash validator
   - [ ] array validator
+- [ ] Transformers (chainable with validators but transform data/error messages)
 - [ ] Passage
 - [ ] "Friendly" DSL
   - [ ] DSL for validator
     - [x] define validate function
     - [x] define custom failure message
     - [ ] define error handling
+  - [ ] DSL for transformer
+  - [ ] DSL for Passage
 
 ## Installation
 
