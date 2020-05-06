@@ -1,5 +1,7 @@
 # Rite
 
+![Rspec](https://github.com/bbuck/rite/workflows/Rspec/badge.svg)
+
 Define validators for Ruby classes and objects. Rite provides a simple, chainable
 validator solution based on the principles of functional design: small, composable
 validators used to build complex validation logic.
