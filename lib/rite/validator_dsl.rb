@@ -37,7 +37,7 @@ module Rite
         define_validator_method(:handle_error, &block)
       else
         case method
-        when :raising
+        when :reraising
           define_validator_method(:handle_error) do |error, *_args|
             raise error
           end
