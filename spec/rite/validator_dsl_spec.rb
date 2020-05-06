@@ -120,12 +120,6 @@ RSpec.describe Rite::ValidatorDSL do
         expect(dsl_class).to respond_to(:rescue_with)
       end
     end
-
-    describe '#fake_method' do
-      it 'reponds to #fake_method' do
-        expect(dsl_class).to respond_to(:fake_method)
-      end
-    end
   end
 
   describe 'with the DSL' do
