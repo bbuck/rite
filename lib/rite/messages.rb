@@ -14,5 +14,6 @@ module Rite
     too_big: -> { "too big" },
     not_multiple_of: -> { "not multiple of" },
     custom: -> { "custom" },
+    unknown: -> { "Rite internal error." },
   }
 end

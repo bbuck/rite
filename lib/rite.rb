@@ -6,15 +6,16 @@ require 'rite/issue'
 require 'rite/messages'
 require 'rite/refinement'
 require 'rite/result'
-require 'rite/validator'
-require 'rite/validators/optional_validator'
-require 'rite/validators/string_validator'
+require 'rite/validators/base'
+require 'rite/validators/passage'
+require 'rite/validators/optional'
+require 'rite/validators/string'
 require 'rite/version'
 
 module Rite
   class << self
     def string(message: nil)
-      Rite::Validators::StringValidator.new(message:)
+      Rite::Validators::String.new(message:)
     end
   end
 end

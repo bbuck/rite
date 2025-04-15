@@ -45,72 +45,32 @@ Or install it yourself as:
 
 ## Usage
 
-It starts with defining a small validator, like a validating type:
-
-```ruby
-string_validator = Rite.define_validator do
-  validate do |value|
-    value.is_a?(String)
-  end
-
-  failure_message '"%value" must be a string'
-end
-```
-
-And now we can use it to validate some input:
-
-```ruby
-some_value = get_data_from_somewhere
-if string_validator.valid?(some_value)
-  # It's a string!
-else
-  # It's not a string!
-  puts string_validator.failure_message(some_value)
-end
-```
-
-But it's obvious this is overkill just to perform a simple `#is_a?` call. That's
-what `Rite::Passage` solves -- chaining. We usually don't want to verify just
-type in real world applications, we may want to verify that it matches some
-expected format:
-
 (NOTE: This API is not yet implemented and subject to change)
 
 ```ruby
-ssn_validator = Rite::Validators
-  .string # .is_a?(String)
-  .matches(/\d{3}=\d{2}-\d{4}/) # .matches?(regex)
-  .required # !.nil? && .length > 0
+# Define a schema for SSNs
+ssn_schema = Rite
+  .string
+  .matches(/\d{3}-\d{2}-\d{4}/)
+
+ssn_schema.parse!('apple') # => raises Rite::Error
+ssn_schema.parse('000-00-0000') # => returns Rite::Result
+# result.success? => true
+# result.value => '000-00-0000'
 ```
 
 ```ruby
-positive_integers = Rite::Validators
-  .integer # .is_a?(Integer)
-  .greater_than(0, :or_equal) # >= 0
-  .required # !.nil? && .length > 0
-```
+# Define the schema
+positive_integer_schema = Rite
+  .integer
+  .positive
 
-These validators create "chains" that will run the value through multiple
-validators. These passages can also be used to chain other passages!
-
-```ruby
-valid_ssn_validator = Rite::Validators
-  .with(ssn_validator)
-  .not_equal('000-00-0000')
-```
-
-Or you can use specialized validtors to inject transformations to the output:
-
-```ruby
-# arrow points to failure message should that step fail but the final #message
-# means if any step fails the failure message provided to #message will be the
-# return value
-ssn_validator = Rite::Validators
-  .string # -> '"value" was expected to be String'
-  .matches(/\d{3}=\d{2}-\d{4}/) # -> '"value" did not match expected format'
-  .required # -> 'cannot be nil or blank'
-  .message('"%value" is not a valid SSN') # overrides any failure message by this piont
-  # -> '"value" is not a valid SSN"
+# validate data with it
+positive_integer_schema.parse!(1) # => 1
+positive_integer_schema.parse(-8) # => Rite::Result
+# result.success? => false
+# result.failed? => true
+# result.error => Rite::Error
 ```
 
 ## Development
