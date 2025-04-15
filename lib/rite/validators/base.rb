@@ -69,6 +69,17 @@ module Rite
         context
       end
 
+      # Returns a programmer friendly type name this validator enforces values
+      # to be.
+      def inspect_type
+        'NOT_IMPLEMENTED'
+      end
+
+      # Returns a programmer friendly string description of this validator.
+      def inspect
+        "#<#{self.class.name} any => #{inspect_type}>"
+      end
+
       protected
 
       attr_accessor :refinements, :message

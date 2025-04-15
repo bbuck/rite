@@ -94,6 +94,18 @@ module Rite
           raise Rite::Error.new(context.issues)
         end
       end
+
+      def inspect_type
+        optional = false
+        steps.flat_map do |step|
+          if step.is_a?(Optional)
+            optional = true
+            []
+          else
+            ["#{step.inspect_type}#{optional ? '?' : ''}"]
+          end
+        end.join(' => ')
+      end
     end
   end
 end

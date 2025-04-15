@@ -12,6 +12,10 @@ module Rite
       def execute(context)
         context.halt if context.value.nil?
       end
+
+      def inspect_type
+        "optional?"
+      end
     end
   end
 end

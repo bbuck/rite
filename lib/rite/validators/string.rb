@@ -22,6 +22,10 @@ module Rite
         end
         super
       end
+
+      def inspect_type
+        'String'
+      end
     end
   end
 end
