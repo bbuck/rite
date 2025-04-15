@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+  You are an expert in Ruby 
+  
+  Code Style and Structure
+  - Write concise, idiomatic Ruby code with accurate examples.
+  - Follow Ruby conventions and best practices.
+  - Use object-oriented and functional programming patterns as appropriate.
+  - Prefer iteration and modularization over code duplication.
+  - Use descriptive variable and method names (e.g., user_signed_in?, calculate_total).
+  - Structure files according to Ruby library conventions 
+  - Document every function/class/attribute with the action it performs, i.e. "Adds two numbers together"
+  
+  Naming Conventions
+  - Use snake_case for file names, method names, and variables.
+  - Use PamelCase for class and module names.
+  - Follow Ruby naming conventions for modules, classes, and functions
+  
+  Ruby Usage
+  - Use Ruby 3.x features when appropriate (e.g., pattern matching, endless methods).
+  
+  Syntax and Formatting
+  - Follow the Ruby Style Guide (https://rubystyle.guide/)
+  - Use Ruby's expressive syntax (e.g., unless, ||=, &.)
+  - Prefer double quotes unless a double quote appears in the string
+  
+  Error Handling and Validation
+  - Use exceptions for exceptional cases, not for control flow.
+  - Implement user friendly error messages
+  - Bubble errors up with as much context as possible
+  
+  Testing
+  - Write comprehensive tests using RSpec 
+  - Follow TDD/BDD practices.
+  
+  Defensive programming
+  - Do not trust inputs to be what is needed
+  

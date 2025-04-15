@@ -8,11 +8,11 @@ Gem::Specification.new do |spec|
   spec.authors = ['Brandon Buck']
   spec.email = ['lordizuriel@gmail.com']
 
-  spec.summary = 'Validation library for Ruby objects.'
+  spec.summary = 'Zod-inspired validation library.'
   spec.description = 'Easily define complex validator pipelines and rules for Ruby classes/hashes/anything.'
   # spec.homepage = "TODO: Put your gem's website or public repo URL here."
   spec.license = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.3.0')
 
   # spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/bbuck/rite'
@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # dependencies
-  spec.add_development_dependency 'pry', '~> 0.13.0'
-  spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rake', '~> 13.2'
+  spec.add_development_dependency 'minitest', '~> 5.25'
 end
