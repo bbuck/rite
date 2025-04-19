@@ -28,7 +28,7 @@ module Rite
     # Assigns a checker Proc that can be called to validate a value against
     # specific conidtions.
     # This function powers the Refinement DSL.
-    def checker(&block)
+    def check(&block)
       @checker = block
     end
 
@@ -43,7 +43,7 @@ module Rite
     end
 
     # Executes the refinement check on the arguments.
-    def check(**kwargs)
+    def validate(**kwargs)
       @checker.call(**kwargs)
     end
 

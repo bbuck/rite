@@ -3,14 +3,16 @@
 module Rite
   module Validators
     class String < Instance
-      EMAIL_REGEX = /^(?!\.)(?!.*\.\.)([A-Z0-9_'+\-\.]*)[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
+      # Source: https://github.com/colinhacks/zod
+      EMAIL_PATTERN = /^(?!\.)(?!.*\.\.)([A-Z0-9_'+\-\.]*)[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
 
       def initialize(message:)
         super(klass: ::String, message:)
       end
 
+      # Validates that the string's length is at least the specified length.
       refinement :min, [:length] do
-        checker { |value:, length:| value.length >= length }
+        check { |value:, length:| value.length >= length }
         build_issue do |value:, path:, length:|
           Rite::TypeIssue.new(
             path:,
@@ -20,8 +22,10 @@ module Rite
         end
       end
 
+      # Validates that the string's length is at most the specified length or
+      # less.
       refinement :max, [:length] do
-        checker { |value:, length:| value.length <= length }
+        check { |value:, length:| value.length <= length }
         build_issue do |value:, length:, path:|
           Rite::TypeIssue.new(
             path:,
@@ -31,15 +35,21 @@ module Rite
         end
       end
 
-      refinement :email do
-        checker { |value:| value.match?(EMAIL_REGEX) }
-        build_issue do |value:, path:|
+      refinement :matches, [:pattern] do
+        check { |value:, pattern:, **kwargs| value.match?(pattern) }
+        build_issue do |value:, path:, message: nil, **kwargs|
           Rite::TypeIssue.new(
             path:,
-            expected: "valid email",
+            expected: message,
             received: value,
+            message:,
           )
         end
+      end
+
+      # Validates that the string looks like an email.
+      def email(message: nil)
+        matches(pattern: EMAIL_PATTERN, message: "expected email")
       end
 
       # Validates that the string's length falls within the given range.
