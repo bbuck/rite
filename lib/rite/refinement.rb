@@ -2,8 +2,14 @@
 
 module Rite
   class Refinement
-    # Positional arguments and keyword arguments for a refinement.
-    Args = Struct.new(:args, :kwargs)
+    # Arguments for a refinement.
+    class Args
+      attr_reader :kwargs
+
+      def initialize(kwargs)
+        @kwargs = kwargs || {}
+      end
+    end
 
     class << self
       def build(&block)
@@ -15,6 +21,7 @@ module Rite
 
     def initialize
       @checker = nil
+      @halt_on_failure = false
       @issue_builder = ->(path:) {  Rite::Issue.new(code: :unknown, path:, message: nil) }
     end
 
@@ -25,6 +32,10 @@ module Rite
       @checker = block
     end
 
+    def halt_on_failure
+      @halt_on_failure = true
+    end
+
     # Assigns a Proc to build the issue should this refinement check fail.
     # This function powers the Refinement DSL.
     def build_issue(&block)
@@ -32,13 +43,18 @@ module Rite
     end
 
     # Executes the refinement check on the arguments.
-    def check(*args, **kwargs)
-      @checker.call(*args, **kwargs)
+    def check(**kwargs)
+      @checker.call(**kwargs)
+    end
+
+    # Notes that validations should halt if this refinment fails.
+    def halt_on_failure?
+      @halt_on_failure
     end
 
     # Constructs an issue from this refinement.
-    def to_issue(*args, **kwargs)
-      @issue_builder.call(*args, **kwargs)
+    def to_issue(**kwargs)
+      @issue_builder.call(**kwargs)
     end
   end
 end

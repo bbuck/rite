@@ -9,6 +9,7 @@ require 'rite/result'
 require 'rite/validators/base'
 require 'rite/validators/passage'
 require 'rite/validators/optional'
+require 'rite/validators/instance'
 require 'rite/validators/string'
 require 'rite/version'
 

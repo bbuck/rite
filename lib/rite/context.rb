@@ -33,14 +33,11 @@ module Rite
     def check(refinement, args)
       return unless continue?
 
-      refinement_args = args[:args] || []
-      refinement_kwargs = args[:kwargs] || {}
-      return if refinement.check(*refinement_args, value:, **refinement_kwargs)
+      return if refinement.check(value:, **args.kwargs)
       self.issues << refinement.to_issue(
-        *refinement_args,
         value:,
         path:,
-        **refinement_kwargs,
+        **args.kwargs,
       )
     end
   end

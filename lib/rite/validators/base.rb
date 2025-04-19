@@ -11,12 +11,14 @@ module Rite
         # additional test that must pass in order for a value to be considered
         # valid. Examples of refinments are things like, string/array length,
         # numericality of a number, etc.
-        def refinement(name, &block)
+        def refinement(name, args = [], &block)
           @refinement_definitions ||= {}
           @refinement_definitions[name] = Rite::Refinement.build(&block)
 
-          define_method(name) do |*args, **kwargs|
-            with_refinement(name, Rite::Refinement::Args.new(args, kwargs))
+          define_method(name) do |**kwargs|
+            missing_kwargs = args - kwargs.keys
+            raise ArgumentError, "Missing required arguments: #{missing_kwargs.join(', ')}" unless missing_kwargs.empty?
+            with_refinement(name, Rite::Refinement::Args.new(kwargs))
           end
         end
       end
