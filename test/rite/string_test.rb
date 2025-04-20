@@ -122,5 +122,30 @@ module Rite
         )
       end
     end
+
+    def test_matches_a_pattern
+      schema = Rite.string.matches(pattern: /\d{3}-\d{2}-\d{4}/)
+
+      [
+        ["", false],
+        ["1", false],
+        ["12", false],
+        ["123", false],
+        ["123-", false],
+        ["123-4", false],
+        ["123-45", false],
+        ["123-45-", false],
+        ["123-45-6", false],
+        ["123-45-67", false],
+        ["123-45-678", false],
+        ["123-45-6789", true],
+      ].each do |(input, success)|
+        if success
+          assert_equal input, schema.parse!(input)
+        else
+          assert_raises(Rite::Error) { schema.parse!(input) }
+        end
+      end
+    end
   end
 end

@@ -35,6 +35,7 @@ module Rite
         end
       end
 
+      # Validates that the the values matches a given pattern.
       refinement :matches, [:pattern] do
         check { |value:, pattern:, **kwargs| value.match?(pattern) }
         build_issue do |value:, path:, message: nil, **kwargs|
